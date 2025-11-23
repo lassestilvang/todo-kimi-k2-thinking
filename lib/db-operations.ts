@@ -185,6 +185,10 @@ export function createTask(data: CreateTaskData): Task {
     throw new Error('Inbox list not found')
   }
 
+  if (!data.name?.trim()) {
+    throw new Error('Task name is required')
+  }
+
   const task: Task = {
     id: uuidv4(),
     name: data.name,
