@@ -1,23 +1,25 @@
 /**
- * Webpack-safe database module - uses indirect eval to completely hide from static analysis
- * Indirect eval (eval by itself) cannot be traced by webpack's static analysis
+ * Runtime-only database module that webpack cannot analyze
+ * Uses dynamic module loading that happens only at runtime
  */
 
-// Indirect eval that webpack cannot trace
-const indirectEval = eval;
-
-const loadModule = (moduleName: string) => {
-  // Use template literal that webpack cannot analyze
-  return indirectEval(`require('${moduleName}')`);
+// This function will be called at runtime only, webpack cannot trace it
+const loadModuleAtRuntime = (moduleName: string) => {
+  // Use Function constructor which webpack cannot analyze
+  const loader = new Function('module', `
+    if (typeof require === 'undefined') {
+      throw new Error('require is not available in this environment');
+    }
+    return require(module);
+  `);
+  return loader(moduleName);
 };
 
-// Build module names dynamically
-const getBunModuleName = () => {
-  const parts = ['bun', ':', 'sqlite'];
-  return parts.join('');
-};
-
-const getNodeModuleName = () => {
+const getRuntimeModuleName = (type: 'bun' | 'node') => {
+  if (type === 'bun') {
+    // Build string dynamically so webpack cannot detect it
+    return ['bun', ':', 'sqlite'].join('');
+  }
   return 'better-sqlite3';
 };
 
@@ -28,20 +30,20 @@ const createDatabase = () => {
                   (process.versions as any).bun;
 
     if (isBun) {
-      const moduleName = getBunModuleName();
-      const { Database } = loadModule(moduleName);
+      const moduleName = getRuntimeModuleName('bun');
+      const { Database } = loadModuleAtRuntime(moduleName);
       const db = new Database('database.db');
       db.run('PRAGMA foreign_keys = ON');
       return db;
     } else {
-      const moduleName = getNodeModuleName();
-      const Database = loadModule(moduleName);
+      const moduleName = getRuntimeModuleName('node');
+      const Database = loadModuleAtRuntime(moduleName);
       const db = new Database('database.db');
       db.pragma('foreign_keys = ON');
       return db;
     }
   } catch (error) {
-    // Fallback - direct require (only used as last resort)
+    // Fallback - direct require (only in Node.js runtime)
     const Database = require('better-sqlite3');
     const db = new Database('database.db');
     db.pragma('foreign_keys = ON');
@@ -49,7 +51,7 @@ const createDatabase = () => {
   }
 };
 
-class SecureDatabase {
+class RuntimeDatabase {
   private db: any;
   private isBun: boolean;
 
@@ -217,11 +219,11 @@ class SecureDatabase {
   }
 }
 
-let database: SecureDatabase | null = null;
+let database: RuntimeDatabase | null = null;
 
-export function getDatabase(): SecureDatabase {
+export function getDatabase(): RuntimeDatabase {
   if (!database) {
-    database = new SecureDatabase();
+    database = new RuntimeDatabase();
   }
   return database;
 }
