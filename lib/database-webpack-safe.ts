@@ -1,14 +1,13 @@
 /**
  * Webpack-safe database module using dynamic string construction
- * Webpack cannot analyze dynamically constructed strings in require calls
+ * Webpack cannot analyze dynamically constructed strings
  */
 
 // Build module names dynamically so webpack cannot detect them
 const getBunSqliteModule = () => {
   const prefix = 'bun';
-  const separator = ':';
   const suffix = 'sqlite';
-  return prefix + separator + suffix;
+  return prefix + ':' + suffix;
 };
 
 const getBetterSqliteModule = () => {
@@ -23,16 +22,16 @@ const createDatabase = () => {
                   (process.versions as any).bun;
 
     if (isBun) {
-      // Build require call dynamically using string concatenation
+      // Build require call dynamically
       const moduleName = getBunSqliteModule();
-      // Use Function constructor to hide from AST analysis - webpack cannot trace this
-      const Database = new Function('return ' + 'require')(moduleName).Database;
+      // Use Function constructor to hide from AST analysis
+      const Database = new Function('return require')(moduleName).Database;
       const db = new Database('database.db');
       db.run('PRAGMA foreign_keys = ON');
       return db;
     } else {
       const moduleName = getBetterSqliteModule();
-      const Database = new Function('return ' + 'require')(moduleName);
+      const Database = new Function('return require')(moduleName);
       const db = new Database('database.db');
       db.pragma('foreign_keys = ON');
       return db;
