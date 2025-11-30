@@ -1,16 +1,17 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
-  DialogFooter 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
+import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
@@ -18,11 +19,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { 
+import {
   Plus, X, Calendar, Clock, Tag, Flag
 } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
-import { List, Label } from '@/lib/types'
+import { List, Label as LabelType } from '@/lib/types'
 
 interface TaskCreateModalProps {
   isOpen: boolean
@@ -33,7 +34,7 @@ interface TaskCreateModalProps {
 
 export function TaskCreateModal({ isOpen, onClose, onTaskCreated, defaultListId }: TaskCreateModalProps) {
   const [lists, setLists] = useState<List[]>([])
-  const [labels, setLabels] = useState<Label[]>([])
+  const [labels, setLabels] = useState<LabelType[]>([])
   const [selectedLabels, setSelectedLabels] = useState<string[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { toast } = useToast()
