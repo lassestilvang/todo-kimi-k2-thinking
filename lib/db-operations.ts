@@ -5,8 +5,6 @@ import {
   Label,
   Subtask,
   ActivityLog,
-  Priority,
-  RecurringType,
   CreateTaskData,
   UpdateTaskData,
   CreateListData,

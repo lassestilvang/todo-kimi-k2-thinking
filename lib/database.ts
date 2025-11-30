@@ -55,7 +55,8 @@ class SecureDatabase {
 
   constructor() {
     this.db = createDatabase();
-    this.isBun = typeof process !== 'undefined' && (process.versions as any)?.bun;
+    const processVersions = process.versions as Record<string, string>;
+    this.isBun = typeof process !== 'undefined' && processVersions?.bun !== undefined;
     this.initializeSchema();
   }
 

@@ -8,8 +8,8 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ChevronDown, ChevronRight, Calendar, Clock, Tag, Flag } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
-import { Task, Subtask } from '@/lib/types'
-import { formatTimeHHMM, formatDateForInput } from '@/lib/db-operations'
+import { Task } from '@/lib/types'
+import { formatTimeHHMM } from '@/lib/db-operations'
 
 interface TaskListProps {
   tasks: Task[]
