@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
+import { Badge } from '@/components/ui/badge'
 import {
   Select,
   SelectContent,
@@ -19,9 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import {
-  Plus, X, Calendar, Clock, Tag, Flag
-} from 'lucide-react'
+// Icon imports removed - using only what's needed
 import { useToast } from '@/hooks/use-toast'
 import { List, Label as LabelType } from '@/lib/types'
 
