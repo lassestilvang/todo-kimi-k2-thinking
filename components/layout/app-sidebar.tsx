@@ -73,6 +73,7 @@ export function AppSidebar({ onAddTask, onSearch }: AppSidebarProps) {
   }, [query, onSearch])
 
   const handleNavigation = (viewId: string) => {
+    if (typeof window === 'undefined') return
     const url = new URL(window.location.href)
     url.searchParams.set('view', viewId)
     window.history.pushState({}, '', url)
@@ -80,6 +81,7 @@ export function AppSidebar({ onAddTask, onSearch }: AppSidebarProps) {
   }
 
   const isActive = (viewId: string) => {
+    if (typeof window === 'undefined') return false
     const params = new URLSearchParams(window.location.search)
     const currentView = params.get('view') || 'today'
     return currentView === viewId

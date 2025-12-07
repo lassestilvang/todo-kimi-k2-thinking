@@ -32,7 +32,7 @@ export function createList(data: CreateListData): List {
     name: data.name,
     icon: data.icon || '📝',
     color: data.color || 'gray',
-    is_inbox: 0,
+    is_inbox: false,
     created_at: now,
     updated_at: now,
   }

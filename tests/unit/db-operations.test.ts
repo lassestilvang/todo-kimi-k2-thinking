@@ -13,10 +13,9 @@ import {
   getTaskById,
   createSubtask,
   updateSubtask,
-  searchTasks,
-  formatTimeHHMM,
-  formatDateForInput
+  searchTasks
 } from '@/lib/db-operations'
+import { formatTimeHHMM, formatDateForInput } from '@/lib/utils-client'
 import type { CreateTaskData } from '@/lib/types'
 
 describe('Database Operations Unit Tests', () => {

@@ -6,10 +6,10 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { ChevronDown, ChevronRight, Calendar, Clock, Tag, Flag } from 'lucide-react'
+import { ChevronDown, ChevronRight, Calendar, Clock, Tag, Flag, CheckSquare } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
 import { Task } from '@/lib/types'
-import { formatTimeHHMM } from '@/lib/db-operations'
+import { formatTimeHHMM } from '@/lib/utils-client'
 
 interface TaskListProps {
   tasks: Task[]

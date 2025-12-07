@@ -114,10 +114,10 @@ const config: Config = {
         },
       },
       height: {
-        "screen-dynamic": ["100vh", "100dvh"],
+        "screen-dynamic": "clamp(100vh, 100dvh, 100dvh)",
       },
       minHeight: {
-        "screen-dynamic": ["100vh", "100dvh"],
+        "screen-dynamic": "clamp(100vh, 100dvh, 100dvh)",
       },
     },
   },

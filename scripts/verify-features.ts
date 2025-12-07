@@ -103,8 +103,8 @@ try {
   section('3. VIEWS')
   
   const todayStr = new Date().toISOString().split('T')[0]
-  createTask({ name: 'Today Task', list_id: workList.id, date: todayStr })
-  createTask({ name: 'Future Task', list_id: workList.id, date: '2024-12-31' })
+  createTask({ name: 'Today Task', list_id: workList.id, date: todayStr, priority: 'none' })
+  createTask({ name: 'Future Task', list_id: workList.id, date: '2024-12-31', priority: 'none' })
   
   const todayTasks = getTasksByView('today')
   check('Today view', todayTasks.length > 0, `Found ${todayTasks.length} task(s) for today`)
@@ -126,7 +126,7 @@ try {
   // SECTION 4: Search
   section('4. SEARCH')
   
-  createTask({ name: 'Buy groceries and milk', list_id: personalList.id })
+  createTask({ name: 'Buy groceries and milk', list_id: personalList.id, priority: 'none' })
   const searchResults = searchTasks('groceries')
   check('Fast fuzzy search', 
     searchResults.length === 1 && searchResults[0].name.includes('groceries'), `Found: ${searchResults[0]?.name}`)

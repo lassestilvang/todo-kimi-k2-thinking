@@ -46,8 +46,8 @@ export function TaskCreateModal({ isOpen, onClose, onTaskCreated, defaultListId 
     date: '',
     deadline: '',
     estimate: '',
-    priority: 'none' as const,
-    recurring: 'none' as const,
+    priority: 'none',
+    recurring: 'none',
   })
 
   useEffect(() => {

@@ -5,6 +5,8 @@ import { TaskList } from '@/components/tasks/task-list'
 import { useState } from 'react'
 import { Task } from '@/lib/types'
 
+export const dynamic = 'force-dynamic'
+
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([])
 

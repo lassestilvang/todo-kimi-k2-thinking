@@ -20,7 +20,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
-import { Label } from '@/components/ui/label'
+import { Label as LabelComponent } from '@/components/ui/label'
 import { Card } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -29,8 +29,8 @@ import {
   Paperclip, Activity, CheckSquare, ChevronDown, ChevronRight
 } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
-import { Task, List, Label } from '@/lib/types'
-import { formatTimeHHMM, formatDateForInput } from '@/lib/db-operations'
+import { Task, List, Label, Priority, RecurringType } from '@/lib/types'
+import { formatTimeHHMM, formatDateForInput } from '@/lib/utils-client'
 import { format } from 'date-fns'
 
 interface TaskDetailModalProps {
@@ -251,7 +251,7 @@ export function TaskDetailModal({ task, isOpen, onClose, onTaskUpdate }: TaskDet
               <div className="space-y-4">
                 {/* Task Name */}
                 <div>
-                  <Label htmlFor="task-name">Task Name *</Label>
+                  <LabelComponent htmlFor="task-name">Task Name *</LabelComponent>
                   <Input
                     id="task-name"
                     value={formData.name || ''}
@@ -262,7 +262,7 @@ export function TaskDetailModal({ task, isOpen, onClose, onTaskUpdate }: TaskDet
 
                 {/* Description */}
                 <div>
-                  <Label htmlFor="task-description">Description</Label>
+                  <LabelComponent htmlFor="task-description">Description</LabelComponent>
                   <Textarea
                     id="task-description"
                     value={formData.description || ''}
@@ -275,7 +275,7 @@ export function TaskDetailModal({ task, isOpen, onClose, onTaskUpdate }: TaskDet
                 <div className="grid grid-cols-2 gap-4">
                   {/* List */}
                   <div>
-                    <Label>List</Label>
+                    <LabelComponent>List</LabelComponent>
                     <Select
                       value={formData.list_id}
                       onValueChange={(value) => setFormData(prev => ({ ...prev, list_id: value }))}
@@ -296,10 +296,10 @@ export function TaskDetailModal({ task, isOpen, onClose, onTaskUpdate }: TaskDet
 
                   {/* Priority */}
                   <div>
-                    <Label>Priority</Label>
+                    <LabelComponent>Priority</LabelComponent>
                     <Select
-                      value={formData.priority}
-                      onValueChange={(value) => setFormData(prev => ({ ...prev, priority: value }))}
+                      value={formData.priority || ''}
+                      onValueChange={(value) => setFormData(prev => ({ ...prev, priority: value as Priority }))}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select priority" />
@@ -317,7 +317,7 @@ export function TaskDetailModal({ task, isOpen, onClose, onTaskUpdate }: TaskDet
                 <div className="grid grid-cols-2 gap-4">
                   {/* Date */}
                   <div>
-                    <Label htmlFor="task-date">Date</Label>
+                    <LabelComponent htmlFor="task-date">Date</LabelComponent>
                     <Input
                       id="task-date"
                       type="date"
@@ -331,7 +331,7 @@ export function TaskDetailModal({ task, isOpen, onClose, onTaskUpdate }: TaskDet
 
                   {/* Deadline */}
                   <div>
-                    <Label htmlFor="task-deadline">Deadline</Label>
+                    <LabelComponent htmlFor="task-deadline">Deadline</LabelComponent>
                     <Input
                       id="task-deadline"
                       type="date"
@@ -347,7 +347,7 @@ export function TaskDetailModal({ task, isOpen, onClose, onTaskUpdate }: TaskDet
                 <div className="grid grid-cols-2 gap-4">
                   {/* Estimate */}
                   <div>
-                    <Label htmlFor="task-estimate">Estimated Time</Label>
+                    <LabelComponent htmlFor="task-estimate">Estimated Time</LabelComponent>
                     <Input
                       id="task-estimate"
                       type="time"
@@ -361,10 +361,10 @@ export function TaskDetailModal({ task, isOpen, onClose, onTaskUpdate }: TaskDet
 
                   {/* Recurring */}
                   <div>
-                    <Label>Recurring</Label>
+                    <LabelComponent>Recurring</LabelComponent>
                     <Select
-                      value={formData.recurring}
-                      onValueChange={(value) => setFormData(prev => ({ ...prev, recurring: value }))}
+                      value={formData.recurring || ''}
+                      onValueChange={(value) => setFormData(prev => ({ ...prev, recurring: value as RecurringType }))}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Not recurring" />
@@ -383,7 +383,7 @@ export function TaskDetailModal({ task, isOpen, onClose, onTaskUpdate }: TaskDet
 
                 {/* Labels */}
                 <div>
-                  <Label>Labels</Label>
+                  <LabelComponent>Labels</LabelComponent>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {task?.labels?.map((label) => (
                       <Badge
